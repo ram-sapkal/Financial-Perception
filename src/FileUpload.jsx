@@ -82,7 +82,10 @@ export default function FileUpload() {
       }
       
     } catch (err) {
-      setError(err.response?.data?.error || err.response?.data?.message || 'An error occurred during processing.');
+      const backendError = err.response?.data?.error || err.response?.data?.message || 'A network error occurred during processing.';
+      setError(backendError);
+      setFile(null); // Clear the corrupted file
+      if (fileInputRef.current) fileInputRef.current.value = '';
     } finally {
       setIsProcessing(false);
     }
@@ -171,9 +174,12 @@ export default function FileUpload() {
       )}
 
       {error && !isProcessing && (
-        <div className="error-message">
-          <AlertCircle size={20} />
-          <span>{error}</span>
+        <div className="error-message" style={{position: 'relative', marginTop:'1.5rem'}}>
+          <AlertCircle size={20} style={{minWidth: '20px'}}/>
+          <span style={{flex: 1}}>{error}</span>
+          <button className="remove-file" onClick={() => setError(null)} style={{margin: 0}}>
+             <X size={16} />
+          </button>
         </div>
       )}
     </div>
