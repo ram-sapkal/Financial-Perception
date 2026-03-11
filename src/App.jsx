@@ -8,12 +8,20 @@ function App() {
   const [activeTab, setActiveTab] = useState('upload'); // 'upload' or 'manual'
 
   return (
-    <div className="app-container">
-      <div className="header">
-        <h1>
-          <Layers style={{ display: 'inline', marginRight: '10px', verticalAlign: '-4px' }} size={36} />
-          Financial Perception
-        </h1>
+    <>
+      <div className="sbi-logo-container">
+        {/* Using a placeholder text if image is not accessible, but ideally link the source here */}
+        <h3 style={{color: '#003399', margin: 0, fontWeight: 800, fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '5px'}}>
+           <div style={{width: '16px', height: '16px', borderRadius: '50%', border: '4px solid #00a4e4'}}></div>
+           SBI Life
+        </h3>
+      </div>
+      <div className="app-container">
+        <div className="header">
+          <h1>
+            <Layers style={{ display: 'inline', marginRight: '10px', verticalAlign: '-4px' }} size={36} />
+            Financial Perception
+          </h1>
         <p>AI-Powered Insurance Bundle Recommendations</p>
       </div>
 
