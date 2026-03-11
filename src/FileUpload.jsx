@@ -113,15 +113,18 @@ export default function FileUpload() {
           <UploadCloud className="upload-icon" />
           <h3 className="upload-text">Drag & Drop your dataset here</h3>
           <p className="upload-subtext">Supports .csv and .xlsx files containing Age, Persona, Income & Products</p>
-          <input 
-            type="file" 
-            ref={fileInputRef} 
-            onChange={handleFileChange} 
-            accept=".csv, .xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, text/csv"
-            className="file-input"
-          />
         </div>
       )}
+
+      {/* Hidden file input lives outside the clickable area to prevent double-dialog bug */}
+      <input 
+        type="file" 
+        ref={fileInputRef} 
+        onChange={handleFileChange} 
+        accept=".csv, .xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, text/csv"
+        className="file-input"
+        style={{ display: 'none' }}
+      />
 
       {file && !isProcessing && !result && (
         <>
