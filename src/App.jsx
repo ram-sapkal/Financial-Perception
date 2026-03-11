@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import FileUpload from './FileUpload';
+import ManualForm from './ManualForm';
+import { Layers } from 'lucide-react';
+import './index.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [activeTab, setActiveTab] = useState('upload'); // 'upload' or 'manual'
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app-container">
+      <div className="header">
+        <h1>
+          <Layers style={{ display: 'inline', marginRight: '10px', verticalAlign: '-4px' }} size={36} />
+          Financial Perception
+        </h1>
+        <p>AI-Powered Insurance Bundle Recommendations</p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+
+      <div className="glass-card">
+        <div className="toggle-wrapper">
+          <div className="toggle-container">
+            <div 
+              className="toggle-slider" 
+              style={{ transform: activeTab === 'upload' ? 'translateX(0)' : 'translateX(100%)' }} 
+            />
+            <button 
+              className={`toggle-btn ${activeTab === 'upload' ? 'active' : ''}`}
+              onClick={() => setActiveTab('upload')}
+            >
+              Bulk Upload
+            </button>
+            <button 
+              className={`toggle-btn ${activeTab === 'manual' ? 'active' : ''}`}
+              onClick={() => setActiveTab('manual')}
+            >
+              Manual Entry
+            </button>
+          </div>
+        </div>
+
+        <div className="tab-content" style={{ minHeight: '300px' }}>
+          {activeTab === 'upload' ? <FileUpload /> : <ManualForm />}
+        </div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
