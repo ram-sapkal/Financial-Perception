@@ -111,9 +111,12 @@ export default function ManualForm() {
             onChange={handleChange} 
             className="form-control"
           >
-            <option value="400000">₹ 0 - ₹ 5,00,000 (Low Income)</option>
-            <option value="750000">₹ 5,00,000 - ₹ 10,00,000 (Mid Income)</option>
-            <option value="1500000">₹ 10,00,000+ (High Income)</option>
+            <option value="250000">₹ 0 - ₹ 3,00,000 (Very Low)</option>
+            <option value="450000">₹ 3,00,000 - ₹ 5,00,000 (Low)</option>
+            <option value="750000">₹ 5,00,000 - ₹ 8,00,000 (Mid-Low)</option>
+            <option value="950000">₹ 8,00,000 - ₹ 10,00,000 (Mid-High)</option>
+            <option value="1500000">₹ 10,00,000 - ₹ 20,00,000 (High)</option>
+            <option value="2500000">₹ 20,00,000+ (Very High)</option>
           </select>
         </div>
 
