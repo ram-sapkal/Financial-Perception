@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { User, DollarSign, Briefcase, Activity, AlertCircle, Package } from 'lucide-react';
+import { User, IndianRupee, Briefcase, Activity, AlertCircle, Package } from 'lucide-react';
 
 export default function ManualForm() {
   const [formData, setFormData] = useState({
@@ -104,7 +104,7 @@ export default function ManualForm() {
         </div>
 
         <div className="form-group">
-          <label><DollarSign size={14} style={{display:'inline', marginRight:'6px', verticalAlign:'-2px'}}/> Annual Income</label>
+          <label><IndianRupee size={14} style={{display:'inline', marginRight:'6px', verticalAlign:'-2px'}}/> Annual Income</label>
           <select 
             name="Annual income range" 
             value={formData['Annual income range']} 
