@@ -6,7 +6,7 @@ export default function ManualForm() {
   const [formData, setFormData] = useState({
     Age: '',
     Persona: 'Term Renewer',
-    'Annual income range': '',
+    'Annual income range': '750000',
     'Current Products': ''
   });
   
@@ -76,7 +76,7 @@ export default function ManualForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
         
         <div className="form-group">
           <label><User size={14} style={{display:'inline', marginRight:'6px', verticalAlign:'-2px'}}/> Age</label>
@@ -105,15 +105,16 @@ export default function ManualForm() {
 
         <div className="form-group">
           <label><DollarSign size={14} style={{display:'inline', marginRight:'6px', verticalAlign:'-2px'}}/> Annual Income</label>
-          <input 
-            type="number" 
+          <select 
             name="Annual income range" 
             value={formData['Annual income range']} 
             onChange={handleChange} 
-            className="form-control" 
-            placeholder="e.g. 800000"
-            required
-          />
+            className="form-control"
+          >
+            <option value="400000">₹ 0 - ₹ 5,00,000 (Low Income)</option>
+            <option value="750000">₹ 5,00,000 - ₹ 10,00,000 (Mid Income)</option>
+            <option value="1500000">₹ 10,00,000+ (High Income)</option>
+          </select>
         </div>
 
         <div className="form-group">
@@ -137,7 +138,7 @@ export default function ManualForm() {
         </div>
       )}
 
-      <div style={{ marginTop: '2rem' }}>
+      <div style={{ marginTop: '1.5rem' }}>
         <button type="submit" className="btn btn-primary">
           <Package size={18} /> Analyze Customer
         </button>
