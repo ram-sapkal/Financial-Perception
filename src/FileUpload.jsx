@@ -65,26 +65,38 @@ export default function FileUpload() {
     formData.append('file', file);
 
     try {
+      // Request binary (arraybuffer) — server streams Excel directly, no disk storage
       const response = await axios.post('http://localhost:5000/api/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: { 'Content-Type': 'multipart/form-data' },
+        responseType: 'arraybuffer'
       });
       
-      const { downloadUrl, data } = response.data;
-      
-      setResult({
-        count: data.length,
-        url: downloadUrl
+      // Build a client-side Blob URL from the binary Excel response
+      const blob = new Blob([response.data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       });
-      
-      // Auto-trigger Download
-      if (downloadUrl) {
-          triggerDownload(downloadUrl, file.name.replace(/\.[^/.]+$/, "") + "_processed.xlsx");
-      }
+      const blobUrl = URL.createObjectURL(blob);
+      const rowCount = parseInt(response.headers['x-row-count'] || '0', 10);
+      const downloadName = file.name.replace(/\.[^/.]+$/, '') + '_processed.xlsx';
+
+      setResult({ count: rowCount, url: blobUrl, fileName: downloadName });
+
+      // Auto-trigger download immediately
+      triggerDownload(blobUrl, downloadName);
       
     } catch (err) {
-      const backendError = err.response?.data?.error || err.response?.data?.message || 'A network error occurred during processing.';
+      // Decode arraybuffer error response back to text
+      let backendError = 'A network error occurred during processing.';
+      if (err.response?.data instanceof ArrayBuffer) {
+        try {
+          const text = new TextDecoder().decode(err.response.data);
+          backendError = JSON.parse(text)?.error || text;
+        } catch (_) {}
+      } else {
+        backendError = err.response?.data?.error || err.response?.data?.message || backendError;
+      }
       setError(backendError);
-      setFile(null); // Clear the corrupted file
+      setFile(null);
       if (fileInputRef.current) fileInputRef.current.value = '';
     } finally {
       setIsProcessing(false);
@@ -94,7 +106,7 @@ export default function FileUpload() {
   const triggerDownload = (url, filename) => {
       const a = document.createElement('a');
       a.href = url;
-      a.download = filename || "processed_data.xlsx";
+      a.download = filename || 'processed_data.xlsx';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -166,7 +178,7 @@ export default function FileUpload() {
           <p className="mb-4" style={{marginBottom:'1rem'}}>Successfully analyzed {result.count} customer profiles.</p>
           
           <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
-            <button className="btn btn-primary" onClick={() => triggerDownload(result.url)}>
+            <button className="btn btn-primary" onClick={() => triggerDownload(result.url, result.fileName)}>
               <Download size={18} /> Download Excel
             </button>
             <button className="btn" style={{background: 'rgba(255,255,255,0.1)', color: 'white'}} onClick={clearFile}>
