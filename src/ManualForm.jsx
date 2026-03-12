@@ -36,7 +36,7 @@ export default function ManualForm() {
     setResult(null);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/analyze-single', formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/analyze-single`, formData);
       setResult(response.data.data);
     } catch (err) {
       setError(err.response?.data?.error || err.response?.data?.message || 'Failed to analyze criteria.');
