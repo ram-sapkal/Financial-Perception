@@ -13,7 +13,7 @@ function App() {
         {/* Using a placeholder text if image is not accessible, but ideally link the source here */}
         <h3 style={{color: '#003399', margin: 0, fontWeight: 800, fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '5px'}}>
            <div style={{width: '16px', height: '16px', borderRadius: '50%', border: '4px solid #00a4e4'}}></div>
-           SBI Life
+           Life Insurance
         </h3>
       </div>
       <div className="app-container">
